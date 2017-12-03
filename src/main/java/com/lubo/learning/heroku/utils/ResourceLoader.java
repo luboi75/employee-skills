@@ -1,4 +1,4 @@
-package com.lubo.learning.heroku.data.utils;
+package com.lubo.learning.heroku.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

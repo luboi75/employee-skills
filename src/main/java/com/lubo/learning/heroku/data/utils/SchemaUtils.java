@@ -2,6 +2,7 @@ package com.lubo.learning.heroku.data.utils;
 
 import com.lubo.learning.heroku.GlobalConstants;
 import com.lubo.learning.heroku.data.holder.DBVersion;
+import com.lubo.learning.heroku.utils.ResourceLoader;
 import org.postgresql.util.PSQLException;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -22,8 +23,8 @@ public class SchemaUtils {
      * on failure
      *  - attempts to create DB schema
      */
-    public static void ensureDB(String connectionString) {
-        Sql2o sql2o = new Sql2o(connectionString);
+    public static void ensureDB(String connectionString, String userName, String password) {
+        Sql2o sql2o = new Sql2o(connectionString, userName, password);
         Connection con = sql2o.open();
         try {
             List<DBVersion> dbVersionList = con.

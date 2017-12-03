@@ -2,7 +2,7 @@ package com.lubo.learning.heroku;
 
 import com.google.gson.Gson;
 import com.lubo.learning.heroku.controller.EmployeeController;
-import com.lubo.learning.heroku.data.utils.EnvUtils;
+import com.lubo.learning.heroku.utils.EnvUtils;
 import com.lubo.learning.heroku.data.utils.SchemaUtils;
 
 import java.util.logging.Logger;
@@ -23,10 +23,14 @@ public class Main {
 //                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME),
 //                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
 
-        SchemaUtils.ensureDB(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL));
+        EnvUtils envUtils = new EnvUtils();
+        logger.info(envUtils.getDbUrl());
+        logger.info(envUtils.getDbUser());
+        logger.info(envUtils.getDbPassword());
+        SchemaUtils.ensureDB(envUtils.getDbUrl(), envUtils.getDbUser(), envUtils.getDbPassword());
 
         // init port either on heroku environment variable or set by default
-        port(Integer.parseInt(EnvUtils.getEnv(EnvUtils.EnvVarNames.PORT)));
+        port(envUtils.getPort());
         // define root directory for static files
         staticFileLocation("static");
         // define routes
