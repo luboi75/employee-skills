@@ -14,29 +14,15 @@ public class Main {
     private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
-        // ensure, DB is in right shape
-//        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL));
-//        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME));
-//        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
-//
-//        SchemaUtils.ensureDB(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL),
-//                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME),
-//                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
-
         EnvUtils envUtils = new EnvUtils();
-        logger.info(envUtils.getDbUrl());
-        logger.info(envUtils.getDbUser());
-        logger.info(envUtils.getDbPassword());
-//        SchemaUtils.ensureDB(envUtils.getDbUrl(), envUtils.getDbUser(), envUtils.getDbPassword());
-        SchemaUtils.ensureDB(envUtils.getDbUrl());
+        // ensure, DB is in right shape
+        SchemaUtils.ensureDB(envUtils.getDbUrl(), envUtils.getDbUser(), envUtils.getDbPassword());
 
         // init port either on heroku environment variable or set by default
         port(envUtils.getPort());
         // define root directory for static files
         staticFileLocation("static");
         // define routes
-        get("/hello", (req, res) -> "Hello World!");
-
         initRoutes();
     }
 

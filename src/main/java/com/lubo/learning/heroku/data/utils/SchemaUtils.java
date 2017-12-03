@@ -15,12 +15,6 @@ public class SchemaUtils {
 
     private static final Logger logger = Logger.getLogger(SchemaUtils.class.getName());
 
-    public static void ensureDB(String connectionString) {
-        Sql2o sql2o = new Sql2o(connectionString);
-        Connection con = sql2o.open();
-        performEnsureDB(con);
-    }
-
     /**
      * validates application can connect to database
      * validates database schema version
@@ -33,10 +27,6 @@ public class SchemaUtils {
     public static void ensureDB(String connectionString, String userName, String password) {
         Sql2o sql2o = new Sql2o(connectionString, userName, password);
         Connection con = sql2o.open();
-        performEnsureDB(con);
-    }
-
-    private static void performEnsureDB(Connection con) {
         try {
             List<DBVersion> dbVersionList = con.
                     createQuery("SELECT * FROM db_version order by major desc, minor desc, build desc").
