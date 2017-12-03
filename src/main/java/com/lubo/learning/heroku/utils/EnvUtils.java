@@ -34,7 +34,7 @@ public class EnvUtils {
         logger.info(dbUser);
         logger.info(dbPassword);
         logger.info("-----------------------------------------");
-        if (this.dbUrl.equals(EnvVarNames.DATABASE_URL.def)) {
+        if (!this.dbUrl.equals(EnvVarNames.DATABASE_URL.def)) {
             this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
             this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
         }
