@@ -29,12 +29,17 @@ public class EnvUtils {
         this.dbUrl = getEnv(EnvVarNames.DATABASE_URL);
         this.dbUser = getEnv(EnvVarNames.JDBC_DATABASE_USERNAME);
         this.dbPassword = getEnv(EnvVarNames.JDBC_DATABASE_PASSWORD);
+        logger.info("-----------------------------------------");
         logger.info(dbUrl);
+        logger.info(dbUser);
+        logger.info(dbPassword);
+        logger.info("-----------------------------------------");
         if (this.dbUrl.equals(EnvVarNames.DATABASE_URL.def)) {
             this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
             this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
         }
         logger.info(dbUrl);
+        logger.info("-----------------------------------------");
     }
 
     private static String getEnv(EnvVarNames var) {
