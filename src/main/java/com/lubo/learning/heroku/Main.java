@@ -2,6 +2,7 @@ package com.lubo.learning.heroku;
 
 import com.google.gson.Gson;
 import com.lubo.learning.heroku.controller.EmployeeController;
+import com.lubo.learning.heroku.data.utils.EnvUtils;
 import com.lubo.learning.heroku.data.utils.SchemaUtils;
 
 import java.util.logging.Logger;
@@ -13,29 +14,19 @@ public class Main {
     private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
-        SchemaUtils.ensureDB("jdbc:postgresql://localhost:5432/postgres", "postgres", "pass4you");
-        initPort();
+        // ensure, DB is in right shape
+        SchemaUtils.ensureDB(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL),
+                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME),
+                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
+
+        // init port either on heroku environment variable or set by default
+        port(Integer.parseInt(EnvUtils.getEnv(EnvUtils.EnvVarNames.PORT)));
         // define root directory for static files
         staticFileLocation("static");
-
         // define routes
         get("/hello", (req, res) -> "Hello World!");
 
         initRoutes();
-    }
-
-    /**
-     * following method is required to get deployment working properly in both lola environment and on heroku
-     * heroku does not generates port number dynamically,
-     * based on my experience heroku keeps ignoring the attempted setting PORT=4567
-     */
-    private static void initPort() {
-        String strPort = System.getenv("PORT");
-        if (strPort == null) {
-            // set default if not found
-            strPort = "4567";
-        }
-        port(Integer.parseInt(strPort));
     }
 
     /**
@@ -54,8 +45,10 @@ public class Main {
             path("/employee", () -> {
                 post("/add", "application/json",
                         (request, response) -> EmployeeController.getEmployee(request, response));
-                put("/change/:id", (request, response) -> "changing employee " + request.params(":id"));
+                put("/change/:id", "application/json",
+                        (request, response) -> "changing employee " + request.params(":id"));
                 get("/:id", (request, response) -> "returning employee " + request.params(":id"));
+                get ("/list", (request, response) -> "returning employee list");
                 delete("/:id", (request, response) -> "deleting employee " + request.params(":id"));
             });
             path("/skill", () -> {

@@ -20,4 +20,10 @@ public class EmployeeController {
 
         return gson.toJson(result);
     }
+
+    public static Object getEmployeeList(Request request, Response response) {
+        Object result = null;
+
+        return gson.toJson(result);
+    }
 }
