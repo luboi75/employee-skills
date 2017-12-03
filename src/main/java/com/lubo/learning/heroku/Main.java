@@ -27,7 +27,8 @@ public class Main {
         logger.info(envUtils.getDbUrl());
         logger.info(envUtils.getDbUser());
         logger.info(envUtils.getDbPassword());
-        SchemaUtils.ensureDB(envUtils.getDbUrl(), envUtils.getDbUser(), envUtils.getDbPassword());
+//        SchemaUtils.ensureDB(envUtils.getDbUrl(), envUtils.getDbUser(), envUtils.getDbPassword());
+        SchemaUtils.ensureDB(envUtils.getDbUrl());
 
         // init port either on heroku environment variable or set by default
         port(envUtils.getPort());
