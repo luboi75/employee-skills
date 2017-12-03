@@ -15,13 +15,15 @@ public class Main {
 
     public static void main(String[] args) {
         // ensure, DB is in right shape
-        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL));
-        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME));
-        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
+//        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL));
+//        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME));
+//        logger.info(EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
+//
+//        SchemaUtils.ensureDB(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL),
+//                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME),
+//                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
 
-        SchemaUtils.ensureDB(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL),
-                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_USERNAME),
-                EnvUtils.getEnv(EnvUtils.EnvVarNames.JDBC_DATABASE_PASSWORD));
+        SchemaUtils.ensureDB(EnvUtils.getEnv(EnvUtils.EnvVarNames.DATABASE_URL));
 
         // init port either on heroku environment variable or set by default
         port(Integer.parseInt(EnvUtils.getEnv(EnvUtils.EnvVarNames.PORT)));

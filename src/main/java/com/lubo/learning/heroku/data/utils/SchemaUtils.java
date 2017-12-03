@@ -22,8 +22,8 @@ public class SchemaUtils {
      * on failure
      *  - attempts to create DB schema
      */
-    public static void ensureDB(String connectionString, String userName, String password) {
-        Sql2o sql2o = new Sql2o(connectionString, userName, password);
+    public static void ensureDB(String connectionString) {
+        Sql2o sql2o = new Sql2o(connectionString);
         Connection con = sql2o.open();
         try {
             List<DBVersion> dbVersionList = con.
