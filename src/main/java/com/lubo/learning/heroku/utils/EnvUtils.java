@@ -1,5 +1,7 @@
 package com.lubo.learning.heroku.utils;
 
+import java.util.logging.Logger;
+
 public class EnvUtils {
     public enum EnvVarNames {
         PORT("PORT", "4567"),
@@ -20,16 +22,19 @@ public class EnvUtils {
     private String dbUrl;
     private String dbUser;
     private String dbPassword;
+    private Logger logger = Logger.getLogger(EnvUtils.class.getName());
 
     public EnvUtils() {
         this.port = Integer.parseInt(getEnv(EnvVarNames.PORT));
         this.dbUrl = getEnv(EnvVarNames.DATABASE_URL);
         this.dbUser = getEnv(EnvVarNames.JDBC_DATABASE_USERNAME);
         this.dbPassword = getEnv(EnvVarNames.JDBC_DATABASE_PASSWORD);
+        logger.info(dbUrl);
         if (this.dbUrl.equals(EnvVarNames.DATABASE_URL.def)) {
-            this.dbUrl.replace(":".concat(this.dbPassword), "");
-            this.dbUrl.replace(":".concat(this.dbUser), "");
+            this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
+            this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
         }
+        logger.info(dbUrl);
     }
 
     private static String getEnv(EnvVarNames var) {
