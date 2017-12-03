@@ -37,6 +37,7 @@ public class EnvUtils {
         if (!this.dbUrl.equals(EnvVarNames.DATABASE_URL.def)) {
             this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
             this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
+            this.dbUrl = this.dbUrl.replace("postgres", "postgresql");
         }
         logger.info(dbUrl);
         logger.info("-----------------------------------------");
