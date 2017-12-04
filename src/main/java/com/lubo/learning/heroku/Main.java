@@ -2,10 +2,9 @@ package com.lubo.learning.heroku;
 
 import com.google.gson.Gson;
 import com.lubo.learning.heroku.controller.EmployeeController;
-import com.lubo.learning.heroku.utils.EnvUtils;
 import com.lubo.learning.heroku.data.utils.SchemaUtils;
-
-import java.util.logging.Logger;
+import com.lubo.learning.heroku.utils.EnvUtils;
+import org.apache.log4j.Logger;
 
 import static spark.Spark.*;
 
@@ -15,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
         EnvUtils envUtils = new EnvUtils();
-        // ensure, DB is in right shape
-        SchemaUtils.ensureDB(envUtils.getDbUrl(), envUtils.getDbUser(), envUtils.getDbPassword());
 
+        // ensure, DB is in right shape
+        SchemaUtils.ensureDB();
         // init port either on heroku environment variable or set by default
         port(envUtils.getPort());
         // define root directory for static files
@@ -40,13 +39,13 @@ public class Main {
         path("/api", () -> {
             before("/*", (req, res) -> logger.info("api call received"));
             path("/employee", () -> {
-                post("/add", "application/json",
-                        (request, response) -> EmployeeController.getEmployee(request, response));
-                put("/change/:id", "application/json",
-                        (request, response) -> "changing employee " + request.params(":id"));
-                get("/:id", (request, response) -> "returning employee " + request.params(":id"));
-                get ("/list", (request, response) -> "returning employee list");
-                delete("/:id", (request, response) -> "deleting employee " + request.params(":id"));
+                post("", "application/json",
+                        (request, response) -> EmployeeController.createEmployee(request, response));
+                put("", "application/json",
+                        (request, response) -> EmployeeController.updateEmployee(request, response));
+                get ("", (request, response) -> EmployeeController.getEmployeeList(request, response));
+                get("/:id", (request, response) -> EmployeeController.getEmployee(request, response));
+                delete("/:id", (request, response) -> EmployeeController.deleteEmployee(request, response));
             });
             path("/skill", () -> {
                 post("/add", (request, response) -> "adding skill");

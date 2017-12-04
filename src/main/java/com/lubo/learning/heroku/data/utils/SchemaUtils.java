@@ -3,13 +3,14 @@ package com.lubo.learning.heroku.data.utils;
 import com.lubo.learning.heroku.GlobalConstants;
 import com.lubo.learning.heroku.data.holder.DBVersion;
 import com.lubo.learning.heroku.utils.ResourceLoader;
+import com.zaxxer.hikari.HikariDataSource;
+import org.apache.log4j.Logger;
 import org.postgresql.util.PSQLException;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class SchemaUtils {
 
@@ -24,8 +25,9 @@ public class SchemaUtils {
      * on failure
      *  - attempts to create DB schema
      */
-    public static void ensureDB(String connectionString, String userName, String password) {
-        Sql2o sql2o = new Sql2o(connectionString, userName, password);
+    public static void ensureDB() {
+        HikariDataSource hds = ConnectionPool.getDataSource();
+        Sql2o sql2o = new Sql2o(hds);
         Connection con = sql2o.open();
         try {
             List<DBVersion> dbVersionList = con.

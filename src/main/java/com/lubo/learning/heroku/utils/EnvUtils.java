@@ -1,6 +1,6 @@
 package com.lubo.learning.heroku.utils;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public class EnvUtils {
     public enum EnvVarNames {
