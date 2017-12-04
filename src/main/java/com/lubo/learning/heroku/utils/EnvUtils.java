@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 public class EnvUtils {
     public enum EnvVarNames {
         PORT("PORT", "4567"),
-        DATABASE_URL("DATABASE_URL", "jdbc:postgresql://localhost:5432/postgres"),
+        JDBC_DATABASE_URL("JDBC_DATABASE_URL", "jdbc:postgresql://localhost:5432/postgres"),
         JDBC_DATABASE_USERNAME("JDBC_DATABASE_USERNAME", "postgres"),
         JDBC_DATABASE_PASSWORD("JDBC_DATABASE_PASSWORD", "pass4you");
 
@@ -26,7 +26,7 @@ public class EnvUtils {
 
     public EnvUtils() {
         this.port = Integer.parseInt(getEnv(EnvVarNames.PORT));
-        this.dbUrl = getEnv(EnvVarNames.DATABASE_URL);
+        this.dbUrl = getEnv(EnvVarNames.JDBC_DATABASE_URL);
         this.dbUser = getEnv(EnvVarNames.JDBC_DATABASE_USERNAME);
         this.dbPassword = getEnv(EnvVarNames.JDBC_DATABASE_PASSWORD);
         logger.info("-----------------------------------------");
@@ -34,11 +34,11 @@ public class EnvUtils {
         logger.info(dbUser);
         logger.info(dbPassword);
         logger.info("-----------------------------------------");
-        if (!this.dbUrl.equals(EnvVarNames.DATABASE_URL.def)) {
-            this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
-            this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
-            this.dbUrl = this.dbUrl.replace("postgres", "postgresql");
-        }
+//        if (!this.dbUrl.equals(EnvVarNames.JDBC_DATABASE_URL.def)) {
+//            this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
+//            this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
+//            this.dbUrl = this.dbUrl.replace("postgres", "postgresql");
+//        }
         logger.info(dbUrl);
         logger.info("-----------------------------------------");
     }
