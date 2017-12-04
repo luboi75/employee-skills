@@ -62,6 +62,7 @@ public class SchemaUtils {
         }
     }
 
+    // for some - currently unknown reason, this code does not work properly on heroku.
     public static void createDB(Connection con) {
         ResourceLoader rl = new ResourceLoader();
         List<String> dbVersions = rl.getResourceFiles("pgSql");
