@@ -13,21 +13,20 @@ public class ConnectionPool {
     private static HikariDataSource hds = null;
     public static HikariDataSource getDataSource() {
         if (hds == null) {
-            EnvUtils envUtils = new EnvUtils();
-            hds = getDataSourceFromConfig(envUtils);
+            hds = getDataSourceFromConfig();
         }
         return hds;
     }
-    private static synchronized HikariDataSource getDataSourceFromConfig(EnvUtils conf) {
+    private static synchronized HikariDataSource getDataSourceFromConfig() {
 
         if (hds == null) {
             HikariConfig jdbcConfig = new HikariConfig();
             jdbcConfig.setPoolName(poolName);
-            jdbcConfig.setMaximumPoolSize(2);
-            jdbcConfig.setMinimumIdle(1);
-            jdbcConfig.setJdbcUrl(conf.getDbUrl());
-            jdbcConfig.setUsername(conf.getDbUser());
-            jdbcConfig.setPassword(conf.getDbPassword());
+            jdbcConfig.setMaximumPoolSize(EnvUtils.getMaxPoolSize());
+            jdbcConfig.setMinimumIdle(EnvUtils.getMinIdleCount());
+            jdbcConfig.setJdbcUrl(EnvUtils.getDbUrl());
+            jdbcConfig.setUsername(EnvUtils.getDbUser());
+            jdbcConfig.setPassword(EnvUtils.getDbPassword());
 
             jdbcConfig.addDataSourceProperty("cachePrepStmts", true);
             jdbcConfig.addDataSourceProperty("prepStmtCacheSize", 256);

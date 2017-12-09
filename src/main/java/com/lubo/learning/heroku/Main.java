@@ -10,15 +10,13 @@ import static spark.Spark.*;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
-    private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
-        EnvUtils envUtils = new EnvUtils();
 
         // ensure, DB is in right shape
         SchemaUtils.ensureDB();
         // init port either on heroku environment variable or set by default
-        port(envUtils.getPort());
+        port(EnvUtils.getPort());
         // define root directory for static files
         staticFileLocation("static");
         // define routes

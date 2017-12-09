@@ -1,71 +1,47 @@
 package com.lubo.learning.heroku.utils;
 
-import org.apache.log4j.Logger;
-
 public class EnvUtils {
-    public enum EnvVarNames {
-        PORT("PORT", "4567"),
-        JDBC_DATABASE_URL("JDBC_DATABASE_URL", "jdbc:postgresql://localhost:5432/postgres"),
-        JDBC_DATABASE_USERNAME("JDBC_DATABASE_USERNAME", "postgres"),
-        JDBC_DATABASE_PASSWORD("JDBC_DATABASE_PASSWORD", "pass4you");
+    private enum EnvVarNames {
+        PORT("PORT"),
+        JDBC_DATABASE_URL("JDBC_DATABASE_URL"),
+        JDBC_DATABASE_USERNAME("JDBC_DATABASE_USERNAME"),
+        JDBC_DATABASE_PASSWORD("JDBC_DATABASE_PASSWORD"),
+        MAX_POOL_SIZE("MAX_POOL_SIZE"),
+        MIN_IDLE_COUNT("MIN_IDLE_COUNT");
+
 
         private final String name;
-        private final String def;
 
-        EnvVarNames(final String name, String def) {
+        EnvVarNames(final String name) {
             this.name = name;
-            this.def = def;
         }
-    }
-
-    private int port;
-    private String dbUrl;
-    private String dbUser;
-    private String dbPassword;
-    private Logger logger = Logger.getLogger(EnvUtils.class.getName());
-
-    public EnvUtils() {
-        this.port = Integer.parseInt(getEnv(EnvVarNames.PORT));
-        this.dbUrl = getEnv(EnvVarNames.JDBC_DATABASE_URL);
-        this.dbUser = getEnv(EnvVarNames.JDBC_DATABASE_USERNAME);
-        this.dbPassword = getEnv(EnvVarNames.JDBC_DATABASE_PASSWORD);
-        logger.info("-----------------------------------------");
-        logger.info(dbUrl);
-        logger.info(dbUser);
-        logger.info(dbPassword);
-        logger.info("-----------------------------------------");
-//        if (!this.dbUrl.equals(EnvVarNames.JDBC_DATABASE_URL.def)) {
-//            this.dbUrl = this.dbUrl.replace(this.dbUser.concat(":"), "");
-//            this.dbUrl = this.dbUrl.replace(this.dbPassword.concat("@"), "");
-//            this.dbUrl = this.dbUrl.replace("postgres", "postgresql");
-//        }
-        logger.info(dbUrl);
-        logger.info("-----------------------------------------");
     }
 
     private static String getEnv(EnvVarNames var) {
-        String result = System.getenv(var.name);
-        if (result == null) {
-            // set default if not found
-            result = var.def;
-        }
-
-        return result;
+        return System.getenv(var.name);
     }
 
-    public int getPort() {
-        return port;
+    public static int getPort() {
+        return Integer.parseInt(getEnv(EnvVarNames.PORT));
     }
 
-    public String getDbUrl() {
-        return dbUrl;
+    public static String getDbUrl() {
+        return getEnv(EnvVarNames.JDBC_DATABASE_URL);
     }
 
-    public String getDbUser() {
-        return dbUser;
+    public static String getDbUser() {
+        return getEnv(EnvVarNames.JDBC_DATABASE_USERNAME);
     }
 
-    public String getDbPassword() {
-        return dbPassword;
+    public static String getDbPassword() {
+        return getEnv(EnvVarNames.JDBC_DATABASE_PASSWORD);
+    }
+
+    public static int getMinIdleCount() {
+        return Integer.parseInt(getEnv(EnvVarNames.MIN_IDLE_COUNT));
+    }
+
+    public static int getMaxPoolSize() {
+        return Integer.parseInt(getEnv(EnvVarNames.MAX_POOL_SIZE));
     }
 }
