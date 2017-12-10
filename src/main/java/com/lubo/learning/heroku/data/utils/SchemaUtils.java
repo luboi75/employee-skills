@@ -66,6 +66,8 @@ public class SchemaUtils {
     public static void createDB(Connection con) {
         ResourceLoader rl = new ResourceLoader();
         List<String> dbVersions = rl.getResourceFiles("pgSql");
+        logger.info("starting DB creation");
+        logger.info("found resource count: " + dbVersions.size());
         dbVersions.forEach((version)->{
             List<String> files = rl.getResourceFiles(version);
             files.forEach((file)->{
