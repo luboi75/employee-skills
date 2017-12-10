@@ -10,9 +10,6 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 public class SchemaUtils {
@@ -66,20 +63,19 @@ public class SchemaUtils {
     }
 
     // for some - currently unknown reason, this code does not work properly on heroku.
-    public static void createDB(Connection con) {
+    private static void createDB(Connection con) {
         ResourceLoader rl = new ResourceLoader();
-        List<String> dbVersions = rl.getResourceFiles("/pgSql");
+        DBVersion v = new DBVersion("0.1.1");
+
+        List<String> versionFiles = rl.getResourceFiles("/pgSql/" + v.getVersionName());
         logger.info("starting DB creation");
-        logger.info("found resource count: " + dbVersions.size());
-        dbVersions.forEach((version)->{
-            List<String> files = rl.getResourceFiles(version);
-            files.forEach((file)->{
-                logger.info("----------------------------------------");
-                String s = rl.loadFile(file);
-                logger.info(s);
-                logger.info("----------------------------------------");
-                con.createQuery(s).executeUpdate();
-            });
+        logger.info("found resource count: " + versionFiles.size());
+        versionFiles.forEach((file)->{
+            logger.info("----------------------------------------");
+            String s = rl.loadFile(file);
+            logger.info(s);
+            logger.info("----------------------------------------");
+            con.createQuery(s).executeUpdate();
         });
     }
 
