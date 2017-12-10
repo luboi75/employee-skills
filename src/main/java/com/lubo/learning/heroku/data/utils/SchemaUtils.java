@@ -67,16 +67,13 @@ public class SchemaUtils {
         ResourceLoader rl = new ResourceLoader();
         DBVersion v = new DBVersion("0.1.1");
 
-        List<String> versionFiles = rl.getResourceFiles("/pgSql/" + v.getVersionName());
+        //List<String> versionFiles = rl.getResourceFiles("/pgSql/" + v.getVersionName() + "/updateDB.sql");
+        String file = rl.loadFile("/pgSql/" + v.getVersionName() + "/updateDB.sql");
         logger.info("starting DB creation");
-        logger.info("found resource count: " + versionFiles.size());
-        versionFiles.forEach((file)->{
-            logger.info("----------------------------------------");
-            String s = rl.loadFile(file);
-            logger.info(s);
-            logger.info("----------------------------------------");
-            con.createQuery(s).executeUpdate();
-        });
+        logger.info("----------------------------------------");
+        logger.info(file);
+        logger.info("----------------------------------------");
+        con.createQuery(file).executeUpdate();
     }
 
 }
