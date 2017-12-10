@@ -52,6 +52,10 @@ public class Main {
             ResourceLoader rl = new ResourceLoader();
             return rl.loadFile(request.params(":folder1") + "/" + request.params(":folder2"));
         });
+        get("/resource/:folder1/:folder2/:file", (request, response) -> {
+            ResourceLoader rl = new ResourceLoader();
+            return rl.loadFile(request.params(":folder1") + "/" + request.params(":folder2") + "/" + request.params(":file"));
+        });
         path("/api", () -> {
             before("/*", (req, res) -> logger.info("api call received"));
             path("/employee", () -> {
