@@ -10,6 +10,9 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 public class SchemaUtils {
@@ -64,6 +67,21 @@ public class SchemaUtils {
 
     // for some - currently unknown reason, this code does not work properly on heroku.
     public static void createDB(Connection con) {
+        URL url = SchemaUtils.class.getResource("pgSql");
+        if (url == null) {
+            // error - missing folder
+        } else {
+            File dir = null;
+            try {
+                dir = new File(url.toURI());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            for (File nextFile : dir.listFiles()) {
+                logger.info(nextFile);
+            }
+        }
+
         ResourceLoader rl = new ResourceLoader();
         List<String> dbVersions = rl.getResourceFiles("pgSql");
         logger.info("starting DB creation");

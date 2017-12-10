@@ -4,7 +4,11 @@ import com.google.gson.Gson;
 import com.lubo.learning.heroku.controller.EmployeeController;
 import com.lubo.learning.heroku.data.utils.SchemaUtils;
 import com.lubo.learning.heroku.utils.EnvUtils;
+import com.lubo.learning.heroku.utils.ResourceLoader;
 import org.apache.log4j.Logger;
+
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import static spark.Spark.*;
 
@@ -12,7 +16,13 @@ public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
 
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+            logger.info(url.getFile());
+        }
         // ensure, DB is in right shape
         SchemaUtils.ensureDB();
         // init port either on heroku environment variable or set by default
@@ -34,6 +44,14 @@ public class Main {
      *
      */
     private static void initRoutes() {
+        get("/resource/:name", (request, response) -> {
+            ResourceLoader rl = new ResourceLoader();
+            return rl.loadFile(request.params(":name"));
+        });
+        get("/resource/:folder1/:folder2", (request, response) -> {
+            ResourceLoader rl = new ResourceLoader();
+            return rl.loadFile(request.params(":folder1") + "/" + request.params(":folder2"));
+        });
         path("/api", () -> {
             before("/*", (req, res) -> logger.info("api call received"));
             path("/employee", () -> {
