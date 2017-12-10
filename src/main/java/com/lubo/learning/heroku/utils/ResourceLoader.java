@@ -9,7 +9,8 @@ import java.util.List;
 
 public class ResourceLoader {
     public String loadFile(String fileName) {
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileName);
+        InputStream in = ClassLoader.getSystemResourceAsStream(fileName);
+                //getResourceAsStream(fileName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String sCurrentLine;
         StringBuilder sb = new StringBuilder();
