@@ -67,23 +67,8 @@ public class SchemaUtils {
 
     // for some - currently unknown reason, this code does not work properly on heroku.
     public static void createDB(Connection con) {
-        URL url = SchemaUtils.class.getResource("pgSql");
-        if (url == null) {
-            // error - missing folder
-        } else {
-            File dir = null;
-            try {
-                dir = new File(url.toURI());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            for (File nextFile : dir.listFiles()) {
-                logger.info(nextFile);
-            }
-        }
-
         ResourceLoader rl = new ResourceLoader();
-        List<String> dbVersions = rl.getResourceFiles("pgSql");
+        List<String> dbVersions = rl.getResourceFiles("/pgSql");
         logger.info("starting DB creation");
         logger.info("found resource count: " + dbVersions.size());
         dbVersions.forEach((version)->{

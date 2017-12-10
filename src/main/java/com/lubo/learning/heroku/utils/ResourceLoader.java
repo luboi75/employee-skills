@@ -56,7 +56,7 @@ public class ResourceLoader {
 
     public InputStream getResourceAsStream( String resource ) {
         final InputStream in
-                = ResourceLoader.class.getResourceAsStream( resource );
+                = this.getClass().getClassLoader().getResourceAsStream( resource );
 
         return in == null ? getClass().getResourceAsStream( resource ) : in;
     }
