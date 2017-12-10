@@ -68,7 +68,9 @@ public class SchemaUtils {
         DBVersion v = new DBVersion("0.1.1");
 
         //List<String> versionFiles = rl.getResourceFiles("/pgSql/" + v.getVersionName() + "/updateDB.sql");
-        String file = rl.loadFile("/pgSql/" + v.getVersionName() + "/updateDB.sql");
+        String fileName = "/pgSql/" + v.getVersionName() + "/updateDB.sql";
+        logger.info(fileName);
+        String file = rl.loadFile(fileName);
         logger.info("starting DB creation");
         logger.info("----------------------------------------");
         logger.info(file);
