@@ -69,9 +69,10 @@ public class SchemaUtils {
         dbVersions.forEach((version)->{
             List<String> files = rl.getResourceFiles(version);
             files.forEach((file)->{
-
+                logger.info("----------------------------------------");
                 String s = rl.loadFile(file);
                 logger.info(s);
+                logger.info("----------------------------------------");
                 con.createQuery(s).executeUpdate();
             });
         });
