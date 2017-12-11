@@ -5,7 +5,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class ConnectionPool {
-    public static final String poolName = "myHikariPool";
+    private static final String poolName = "myHikariPool";
 
     // prevent creating instance
     private ConnectionPool() {}

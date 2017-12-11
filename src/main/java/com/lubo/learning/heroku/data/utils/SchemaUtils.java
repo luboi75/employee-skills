@@ -34,7 +34,7 @@ public class SchemaUtils {
                     createQuery("SELECT * FROM db_version order by major desc, minor desc, build desc").
                     executeAndFetch(DBVersion.class);
             if (dbVersionList.isEmpty()) {
-                // TODO: need to figure out correct action - db_version table exists however no record was found
+                System.exit(GlobalConstants.ErrorCode.UnknownDatabaseStatus.getCode());
             }
             // TODO: identify, whether correct version is present
         } catch (Sql2oException e) {
@@ -60,6 +60,18 @@ public class SchemaUtils {
                 con.close();
             }
         }
+    }
+
+    private static void loadDBVersion(Connection con, String version) {
+        ResourceLoader rl = new ResourceLoader();
+        DBVersion dbv = new DBVersion(version);
+        String fileName = "/pgSql/" + dbv.getVersionName() + "/updateDB.sql";
+        logger.info(fileName);
+        String file = rl.loadFile(fileName);
+        logger.info("starting DB update to " + dbv.getVersionName());
+        logger.info(file);
+        con.createQuery(file).executeUpdate();
+
     }
 
     // for some - currently unknown reason, this code does not work properly on heroku.

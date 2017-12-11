@@ -1,6 +1,5 @@
 package com.lubo.learning.heroku;
 
-import com.google.gson.Gson;
 import com.lubo.learning.heroku.controller.EmployeeController;
 import com.lubo.learning.heroku.data.utils.SchemaUtils;
 import com.lubo.learning.heroku.utils.EnvUtils;
@@ -60,12 +59,12 @@ public class Main {
             before("/*", (req, res) -> logger.info("api call received"));
             path("/employee", () -> {
                 post("", "application/json",
-                        (request, response) -> EmployeeController.createEmployee(request, response));
+                        EmployeeController::createEmployee);
                 put("", "application/json",
-                        (request, response) -> EmployeeController.updateEmployee(request, response));
-                get ("", (request, response) -> EmployeeController.getEmployeeList(request, response));
-                get("/:id", (request, response) -> EmployeeController.getEmployee(request, response));
-                delete("/:id", (request, response) -> EmployeeController.deleteEmployee(request, response));
+                        EmployeeController::updateEmployee);
+                get ("", EmployeeController::getEmployeeList);
+                get("/:id", EmployeeController::getEmployee);
+                delete("/:id", EmployeeController::deleteEmployee);
             });
             path("/skill", () -> {
                 post("/add", (request, response) -> "adding skill");

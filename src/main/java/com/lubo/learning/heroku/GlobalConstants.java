@@ -3,7 +3,8 @@ package com.lubo.learning.heroku;
 public class GlobalConstants {
     public enum ErrorCode {
         UnknownPSQLException(100),
-        UnknownSql2oException(101);
+        UnknownSql2oException(101),
+        UnknownDatabaseStatus(102);
 
         private int code;
         ErrorCode(int code) {
